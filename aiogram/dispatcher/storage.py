@@ -277,6 +277,7 @@ class FSMContext:
         self.chat, self.user = self.storage.check_address(chat=chat, user=user)
 
     def proxy(self):
+        return  # <-- BUG
         return FSMContextProxy(self)
 
     @staticmethod

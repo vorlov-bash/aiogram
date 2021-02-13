@@ -39,7 +39,7 @@ async def get_start_link(payload: str, encode=False) -> str:
     :param encode: encode payload with base64url
     :return: link
     """
-    return await _create_link('start', payload, encode)
+    return _create_link('start', payload, encode) # <-- BUG
 
 
 async def get_startgroup_link(payload: str, encode=False) -> str:

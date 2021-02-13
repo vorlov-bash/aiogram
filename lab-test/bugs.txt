@@ -1,0 +1,5 @@
+aiogram/dispatcher/dispatcher.py | 459:83
+aiogram/dispatcher/handler.py | 66:12
+aiogram/bot/api.py | 64:30
+aiogram/dispatcher/storage.py | 280:9
+aiogram/utils/deep_linking.py | 42:11

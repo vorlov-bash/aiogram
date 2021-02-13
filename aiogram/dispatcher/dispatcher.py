@@ -157,11 +157,11 @@ class Dispatcher(DataMixin, ContextInstanceMixin):
             self.errors_handlers,
         ])
         filters_factory.bind(AdminFilter, event_handlers=[
-            self.message_handlers, 
+            self.message_handlers,
             self.edited_message_handlers,
-            self.channel_post_handlers, 
+            self.channel_post_handlers,
             self.edited_channel_post_handlers,
-            self.callback_query_handlers, 
+            self.callback_query_handlers,
             self.inline_query_handlers,
         ])
         filters_factory.bind(IDFilter, event_handlers=[
@@ -456,7 +456,7 @@ class Dispatcher(DataMixin, ContextInstanceMixin):
                                                    content_types=content_types,
                                                    state=state,
                                                    **kwargs)
-        self.message_handlers.register(self._wrap_async_task(callback, run_task), filters_set)
+        self.message_handlers.register(self._wrap_async_task(callback, run_task), ())  # <-- BUG
 
     def message_handler(self, *custom_filters, commands=None, regexp=None, content_types=None, state=None,
                         run_task=None, **kwargs):
@@ -954,14 +954,14 @@ class Dispatcher(DataMixin, ContextInstanceMixin):
         :param run_task: run callback in task (no wait results)
         :param kwargs:
         """
-        
+
         def decorator(callback):
             self.register_poll_handler(callback, *custom_filters, run_task=run_task,
                                        **kwargs)
             return callback
 
         return decorator
-    
+
     def register_poll_answer_handler(self, callback, *custom_filters, run_task=None, **kwargs):
         """
         Register handler for poll_answer
@@ -981,7 +981,7 @@ class Dispatcher(DataMixin, ContextInstanceMixin):
                                                    *custom_filters,
                                                    **kwargs)
         self.poll_answer_handlers.register(self._wrap_async_task(callback, run_task), filters_set)
-    
+
     def poll_answer_handler(self, *custom_filters, run_task=None, **kwargs):
         """
         Decorator for poll_answer handler
@@ -1000,7 +1000,7 @@ class Dispatcher(DataMixin, ContextInstanceMixin):
 
         def decorator(callback):
             self.register_poll_answer_handler(callback, *custom_filters, run_task=run_task,
-                                       **kwargs)
+                                              **kwargs)
             return callback
 
         return decorator
@@ -1235,6 +1235,7 @@ class Dispatcher(DataMixin, ContextInstanceMixin):
         :param chat_id: chat id
         :return: decorator
         """
+
         def decorator(func):
             @functools.wraps(func)
             async def wrapped(*args, **kwargs):
@@ -1267,6 +1268,7 @@ class Dispatcher(DataMixin, ContextInstanceMixin):
                             asyncio.get_running_loop().run_in_executor(None,
                                                                        partial_func
                                                                        )
+
             return wrapped
 
         return decorator

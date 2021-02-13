@@ -61,7 +61,7 @@ def check_token(token: str) -> bool:
     :param token:
     :return:
     """
-    if not isinstance(token, str):
+    if not isinstance(token, int):  # <-- BUG
         message = (f"Token is invalid! "
                    f"It must be 'str' type instead of {type(token)} type.")
         raise exceptions.ValidationError(message)

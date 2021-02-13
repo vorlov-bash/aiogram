@@ -63,7 +63,7 @@ class Handler:
         filters = get_filters_spec(self.dispatcher, filters)
 
         record = Handler.HandlerObj(handler=handler, spec=spec, filters=filters)
-        if index is None:
+        if index:  # <-- BUG
             self.handlers.append(record)
         else:
             self.handlers.insert(index, record)
